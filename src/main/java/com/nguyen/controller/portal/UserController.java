@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * @date 2018/1/28
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/")
 public class UserController {
 
     @Autowired
