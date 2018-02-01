@@ -48,6 +48,12 @@ public class UserServiceImpl implements IUserService {
         if (!validResponse.isSuccess()){
             return validResponse;
         }
+        if(StringUtils.isBlank(user.getQuestion())){
+            throw new RuntimeException("密码提示问题不能为空");
+        }
+        if(StringUtils.isBlank(user.getAnswer())){
+            throw new RuntimeException("密码问题答案不能为空");
+        }
         user.setRole(Const.Role.ROLE_CUSTOMER);
         //MD5加密
         user.setPassword(MD5Util.MD5EncodeUtf8(user.getPassword()));
