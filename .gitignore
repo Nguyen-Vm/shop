@@ -1,3 +1,7 @@
+#nguyen mysql
+generatorConfig.xml
+applicationContext-datasource.xml
+
 *.class
 
 #package file
