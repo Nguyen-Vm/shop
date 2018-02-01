@@ -40,19 +40,31 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> register(User user){
+        if (StringUtils.isBlank(user.getUsername())){
+            return ServerResponse.createByErrorMessage("请输入用户名");
+        }
         ServerResponse<String> validResponse = checkValid(user.getUsername(), Const.USERNAME);
         if (!validResponse.isSuccess()){
             return validResponse;
+        }
+        if (StringUtils.isBlank(user.getPassword())){
+            return ServerResponse.createByErrorMessage("请输入密码");
+        }
+        if (StringUtils.isBlank(user.getPhone())){
+            return ServerResponse.createByErrorMessage("请输入手机号");
+        }
+        if (StringUtils.isBlank(user.getEmail())){
+            return ServerResponse.createByErrorMessage("请输入邮箱地址");
         }
         validResponse = checkValid(user.getEmail(), Const.EMAIL);
         if (!validResponse.isSuccess()){
             return validResponse;
         }
         if(StringUtils.isBlank(user.getQuestion())){
-            throw new RuntimeException("密码提示问题不能为空");
+            return ServerResponse.createByErrorMessage("密码提示问题不能为空");
         }
         if(StringUtils.isBlank(user.getAnswer())){
-            throw new RuntimeException("密码问题答案不能为空");
+            return ServerResponse.createByErrorMessage("密码问题答案不能为空");
         }
         user.setRole(Const.Role.ROLE_CUSTOMER);
         //MD5加密
@@ -100,23 +112,32 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> checkAnswer(String username, String question, String answer) {
+        if (StringUtils.isBlank(question)){
+            return ServerResponse.createByErrorMessage("密码提示问题不能为空");
+        }
+        if (StringUtils.isBlank(answer)){
+            return ServerResponse.createByErrorMessage("密码问题答案不能为空");
+        }
         int resultCount = userMapper.checkAnswer(username, question, answer);
         if (resultCount > 0){
             String forgetToken = UUID.randomUUID().toString();
             TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
             return ServerResponse.createBySuccess(forgetToken);
         }
-        return ServerResponse.createByErrorMessage("问题的答案错误");
+        return ServerResponse.createByErrorMessage("问题答案错误，校验失败！");
     }
 
     @Override
     public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
-        if (StringUtils.isBlank(forgetToken)){
-            return ServerResponse.createByErrorMessage("参数错误，token不能为空");
-        }
         ServerResponse<String> validResponse = checkValid(username, Const.USERNAME);
         if (validResponse.isSuccess()){
             return ServerResponse.createByErrorMessage("用户不存在");
+        }
+        if (StringUtils.isBlank(passwordNew)){
+            return ServerResponse.createByErrorMessage("请输入新密码");
+        }
+        if (StringUtils.isBlank(forgetToken)){
+            return ServerResponse.createByErrorMessage("参数错误，token不能为空");
         }
         String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
         if (StringUtils.isBlank(token)){
@@ -136,10 +157,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> resetPassword(String passwordOld, String passwordNew, User user) {
+        if (StringUtils.isBlank(passwordOld)){
+            return ServerResponse.createByErrorMessage("请输入旧密码");
+        }
+        if (StringUtils.isBlank(passwordNew)){
+            return ServerResponse.createByErrorMessage("请输入新密码");
+        }
         //防止横向越权,要校验一下这个用户的旧密码,一定要指定是这个用户.因为我们会查询一个count(1),如果不指定id,那么结果就是true啦count>0;
         int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
         if (resultCount == 0){
-            return ServerResponse.createByErrorMessage("密码错误");
+            return ServerResponse.createByErrorMessage("原始密码校验不成功，请重新输入旧密码");
         }
         user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
         int updateCount = userMapper.updateByPrimaryKeySelective(user);
