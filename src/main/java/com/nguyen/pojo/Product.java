@@ -1,5 +1,10 @@
 package com.nguyen.pojo;
 
+import com.nguyen.dto.response.ProductResponse;
+import com.nguyen.utils.PropertiesUtil;
+import com.nguyen.utils.dateUtils.DateFormat;
+import com.nguyen.utils.dateUtils.DateUtils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -141,5 +146,23 @@ public class Product {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public ProductResponse response() {
+        ProductResponse response = new ProductResponse();
+        response.id = id;
+        response.categotyId = categoryId;
+        response.name = name;
+        response.subtitle = subtitle;
+        response.mainImages = mainImage;
+        response.subImages = subImages;
+        response.detail = detail;
+        response.price = price;
+        response.stock = stock;
+        response.status = status;
+        response.imageHost = PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/");
+        response.createTime = DateUtils.format(createTime, DateFormat.StrikeDateTime);
+        response.updateTime = DateUtils.format(updateTime, DateFormat.StrikeDateTime);
+        return response;
     }
 }

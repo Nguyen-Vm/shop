@@ -27,6 +27,31 @@
     from mmall_product
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
+  <select id="selectList" resultType="com.nguyen.pojo.Product">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_product
+    ORDER BY id ASC
+  </select>
+
+
+  <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    <where>
+      <if test="productName != null">
+        and name like #{productName}
+      </if>
+      <if test="productId != null">
+        and id = #{productId}
+      </if>
+    </where>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_product
     where id = #{id,jdbcType=INTEGER}
@@ -122,6 +147,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.nguyen.pojo.Product" >
     update mmall_product
     <set >
