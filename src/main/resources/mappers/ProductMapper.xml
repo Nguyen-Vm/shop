@@ -29,7 +29,7 @@
   </select>
 
 
-  <select id="selectList" resultType="com.nguyen.pojo.Product">
+  <select id="selectList" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List"/>
     FROM mmall_product

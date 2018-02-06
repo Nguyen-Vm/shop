@@ -1,4 +1,4 @@
-package com.nguyen.utils.dateUtils;
+package com.nguyen.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

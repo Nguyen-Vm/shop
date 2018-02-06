@@ -1,9 +1,9 @@
 package com.nguyen.pojo;
 
 import com.nguyen.dto.response.ProductResponse;
+import com.nguyen.utils.DateFormat;
+import com.nguyen.utils.DateUtils;
 import com.nguyen.utils.PropertiesUtil;
-import com.nguyen.utils.dateUtils.DateFormat;
-import com.nguyen.utils.dateUtils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;

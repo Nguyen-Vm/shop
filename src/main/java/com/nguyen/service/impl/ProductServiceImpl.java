@@ -29,6 +29,18 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ServerResponse saveOrUpdateProduct(Product product) {
         if (product != null){
+            if (null == product.getCategoryId()){
+                return ServerResponse.createByErrorMessage("分类ID不能为空");
+            }
+            if (StringUtils.isBlank(product.getName())){
+                return ServerResponse.createByErrorMessage("商品名称不能为空");
+            }
+            if (null == product.getPrice()){
+                return ServerResponse.createByErrorMessage("商品价格不能为空");
+            }
+            if (null == product.getStock()){
+                return ServerResponse.createByErrorMessage("商品库存不能为空");
+            }
             if (StringUtils.isNotBlank(product.getSubImages())){
                 List<String> subImages = Splitter.on(",").splitToList(product.getSubImages());
                 if (!CollectionUtils.isEmpty(subImages)){

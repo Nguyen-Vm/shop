@@ -1,4 +1,4 @@
-package com.nguyen.utils.dateUtils;
+package com.nguyen.utils;
 
 public enum DateFormat{
     NumDate("yyyyMMdd"),
