@@ -3,7 +3,7 @@ package com.nguyen.service.impl;
 import com.nguyen.common.Const;
 import com.nguyen.common.ServerResponse;
 import com.nguyen.common.TokenCache;
-import com.nguyen.dao.UserMapper;
+import com.nguyen.mapper.UserMapper;
 import com.nguyen.pojo.User;
 import com.nguyen.service.IUserService;
 import com.nguyen.utils.MD5Util;

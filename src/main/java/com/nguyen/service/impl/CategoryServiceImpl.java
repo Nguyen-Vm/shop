@@ -3,7 +3,7 @@ package com.nguyen.service.impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.nguyen.common.ServerResponse;
-import com.nguyen.dao.CategoryMapper;
+import com.nguyen.mapper.CategoryMapper;
 import com.nguyen.pojo.Category;
 import com.nguyen.service.ICategoryService;
 import org.apache.commons.collections.CollectionUtils;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author RWM
  * @date 2018/1/29
  */
-@Service
+@Service("iCategoryService")
 public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired

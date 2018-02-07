@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.nguyen.dao.CartMapper" >
+<mapper namespace="com.nguyen.mapper.CartMapper" >
   <resultMap id="BaseResultMap" type="com.nguyen.pojo.Cart" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -21,11 +21,58 @@
     from mmall_cart
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+
+    <select id="selectCartByUserIdProductId" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+        AND product_id = #{productId}
+    </select>
+
+    <select id="selectCartProductCount" parameterType="int" resultType="java.lang.Integer">
+      SELECT IFNULL(sum(quantity), 0) as count FROM mmall_cart WHERE user_id = #{userId}
+    </select>
+
+    <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
+      SELECT
+      <include refid="Base_Column_List"></include>
+        FROM mmall_cart
+        WHERE user_id = #{userId}
+    </select>
+
+
+    <select id="selectCartProductCheckedStatusByUserId" resultType="java.lang.Integer" parameterType="int">
+      SELECT  count(1) from mmall_cart where checked = 0 and user_id = #{userId}
+    </select>
+
+
+    <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from mmall_cart
+        where user_id = #{userId}
+        and checked = 1
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_cart
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.nguyen.pojo.Cart" >
+
+    <delete id="deleteByUserIdProductIds" parameterType="map">
+      DELETE FROM mmall_cart
+      WHERE user_id = #{userId}
+      <if test="productIds != null">
+          and product_id IN
+          <foreach item="item" index="index" open="(" separator="," close=")" collection="productIds">
+            #{item}
+          </foreach>
+      </if>
+    </delete>
+
+    <insert id="insert" parameterType="com.nguyen.pojo.Cart" >
     insert into mmall_cart (id, user_id, product_id, 
       quantity, checked, create_time, 
       update_time)
@@ -116,4 +163,12 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
-</mapper>
+    <update id="checkedOrUncheckedProduct" parameterType="map">
+        UPDATE  mmall_cart
+        set checked = #{checked},
+        update_time = now()
+        where user_id = #{userId}
+        <if test="productId != null">
+            and product_id = #{productId}
+        </if>
+    </update></mapper>

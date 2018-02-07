@@ -1,4 +1,4 @@
-package com.nguyen.dao;
+package com.nguyen.mapper;
 
 import com.nguyen.pojo.Product;
 import org.apache.ibatis.annotations.Param;
@@ -21,4 +21,6 @@ public interface ProductMapper {
     List<Product> selectList();
 
     List<Product> selectByNameAndProductId(@Param("productName") String productName, @Param("productId") Integer productId);
+
+    List<Product> selectByNameAndCategoryIds(@Param("productName")String productName,@Param("categoryIdList")List<Integer> categoryIdList);
 }

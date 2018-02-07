@@ -13,9 +13,13 @@ public interface IProductService {
 
     ServerResponse setProductStatus(Integer productId, Integer status);
 
-    ServerResponse getProductDetail(Integer productId);
+    ServerResponse getManageProductDetail(Integer productId);
 
     ServerResponse getProductList(int pageNum, int pageSize);
 
     ServerResponse searchProduct(String productName, Integer productId, int pageNum, int pageSize);
+
+    ServerResponse getProductByKeywordCategory(String keyword, Integer categoryId, int pageNum, int pageSize, String orderBy);
+
+    ServerResponse getProductDetail(Integer productId);
 }

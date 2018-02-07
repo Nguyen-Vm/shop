@@ -1,4 +1,4 @@
-package com.nguyen.dao;
+package com.nguyen.mapper;
 
 import com.nguyen.pojo.Order;
 
