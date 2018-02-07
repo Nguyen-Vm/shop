@@ -31,15 +31,15 @@ public class FTPUtils {
         FTPUtils ftpUtils = new FTPUtils(ftpIp, 21, ftpUser, ftpPass);
         logger.info("开始连接FTP服务器");
         boolean result = ftpUtils.uploadFile("img", fileList);
-        logger.info("开始连接FTP服务器，结束上传，上传结果：{}");
+        logger.info("开始连接FTP服务器，结束上传，上传结果：{}", result);
         return result;
     }
 
     private boolean uploadFile(String remotePath, List<File> fileList) throws IOException {
-        boolean uploaded = true;
+        boolean uploaded = false;
         FileInputStream fis = null;
         //连接FTP服务器
-        if (connectServer(this.getIp(), this.getPort(), this.getUser(), this.getPwd())){
+        if (connectServer(this.ip, this.port, this.user, this.pwd)){
             try {
                 ftpClient.changeWorkingDirectory(remotePath);
                 ftpClient.setBufferSize(1024);
@@ -50,8 +50,9 @@ public class FTPUtils {
                     fis = new FileInputStream(fileItem);
                     ftpClient.storeFile(fileItem.getName(), fis);
                 }
+                uploaded = true;
             } catch (IOException e) {
-                logger.error("长传文件异常", e);
+                logger.error("上传文件异常", e);
                 e.printStackTrace();
             } finally {
                 fis.close();
@@ -65,7 +66,7 @@ public class FTPUtils {
         boolean isSuccess = false;
         ftpClient = new FTPClient();
         try {
-            ftpClient.connect(ip);
+            ftpClient.connect(ip, port);
             isSuccess = ftpClient.login(user, pwd);
         } catch (IOException e) {
             logger.error("连接FTP服务器异常", e);
