@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.nguyen.mapper.ShippingMapper" >
-  <resultMap id="BaseResultMap" type="com.nguyen.pojo.Shipping" >
+<mapper namespace="com.nguyen.shop.mapper.ShippingMapper" >
+  <resultMap id="BaseResultMap" type="com.nguyen.shop.pojo.Shipping" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -56,7 +56,7 @@
     AND id = #{shippingId}
   </delete>
 
-  <insert id="insert" parameterType="com.nguyen.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.nguyen.shop.pojo.Shipping" useGeneratedKeys="true" keyProperty="id">
     insert into mmall_shipping (id, user_id, receiver_name, 
       receiver_phone, receiver_mobile, receiver_province, 
       receiver_city, receiver_district, receiver_address, 
@@ -69,7 +69,7 @@
       )
   </insert>
 
-  <insert id="insertSelective" parameterType="com.nguyen.pojo.Shipping" >
+  <insert id="insertSelective" parameterType="com.nguyen.shop.pojo.Shipping" >
     insert into mmall_shipping
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -149,7 +149,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.nguyen.pojo.Shipping" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.nguyen.shop.pojo.Shipping" >
     update mmall_shipping
     <set >
       <if test="userId != null" >
@@ -189,7 +189,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.nguyen.pojo.Shipping" >
+  <update id="updateByPrimaryKey" parameterType="com.nguyen.shop.pojo.Shipping" >
     update mmall_shipping
     set user_id = #{userId,jdbcType=INTEGER},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
@@ -205,7 +205,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByShipping" parameterType="com.nguyen.pojo.Shipping">
+  <update id="updateByShipping" parameterType="com.nguyen.shop.pojo.Shipping">
     update mmall_shipping
     set
       receiver_name = #{receiverName,jdbcType=VARCHAR},

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.nguyen.mapper.ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.nguyen.pojo.Product" >
+<mapper namespace="com.nguyen.shop.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.nguyen.shop.pojo.Product" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="category_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -64,7 +64,7 @@
           AND category_id IN
             <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
                 #{item}
-            </foreach>>
+            </foreach>
         </if>
     </select>
 
@@ -73,7 +73,7 @@
     delete from mmall_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.nguyen.pojo.Product" >
+  <insert id="insert" parameterType="com.nguyen.shop.pojo.Product" >
     insert into mmall_product (id, category_id, name, 
       subtitle, main_image, sub_images, 
       detail, price, stock, 
@@ -85,7 +85,7 @@
       #{status,jdbcType=INTEGER}, now(), now()
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.nguyen.pojo.Product" >
+  <insert id="insertSelective" parameterType="com.nguyen.shop.pojo.Product" >
     insert into mmall_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -165,7 +165,7 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.nguyen.pojo.Product" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.nguyen.shop.pojo.Product" >
     update mmall_product
     <set >
       <if test="categoryId != null" >
@@ -204,7 +204,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.nguyen.pojo.Product" >
+  <update id="updateByPrimaryKey" parameterType="com.nguyen.shop.pojo.Product" >
     update mmall_product
     set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
