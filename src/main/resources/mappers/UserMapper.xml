@@ -168,12 +168,12 @@
   </update>
 
 
-  <select id="checkUsername" resultType="int" parameterType="string">
+  <select id="checkUsername" resultType="java.lang.Integer" parameterType="string">
     SELECT count(1) FROM mmall_user WHERE username = #{username}
   </select>
 
 
-  <select id="checkEmail" resultType="int" parameterType="string">
+  <select id="checkEmail" resultType="java.lang.Integer" parameterType="string">
     SELECT count(1) FROM mmall_user WHERE email = #{email}
   </select>
 
@@ -186,12 +186,12 @@
   </select>
 
 
-  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+  <select id="selectQuestionByUsername" resultType="java.lang.String" parameterType="string">
     SELECT question FROM mmall_user WHERE username = #{username}
   </select>
 
 
-  <select id="checkAnswer" resultType="int" parameterType="map">
+  <select id="checkAnswer" resultType="java.lang.Integer" parameterType="map">
     SELECT count(1) FROM mmall_user WHERE username = #{username} AND question = #{question} AND answer = #{answer}
   </select>
 
@@ -200,12 +200,12 @@
     UPDATE mmall_user SET password = #{password} WHERE  username = #{username}
   </update>
 
-  <select id="checkPassword" resultType="int" parameterType="map">
+  <select id="checkPassword" resultType="java.lang.Integer" parameterType="map">
     SELECT count(1) FROM mmall_user WHERE  password = #{password} AND id = #{userId}
   </select>
 
 
-  <select id="checkEmailByUserId" resultType="int">
+  <select id="checkEmailByUserId" resultType="java.lang.Integer">
     SELECT count(1) from mmall_user WHERE email = #{email} AND id = #{userId}
   </select>
 </mapper>
