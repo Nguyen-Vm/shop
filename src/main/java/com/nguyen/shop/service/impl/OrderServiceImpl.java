@@ -232,7 +232,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private ServerResponse getCartOrderItem(Integer userId, List<Cart> cartList) {
         List<OrderItem> orderItemList = Lists.newArrayList();
-        if (CollectionUtils.isEmpty(orderItemList)){
+        if (CollectionUtils.isEmpty(cartList)){
             return ServerResponse.createByErrorMessage("购物车为空");
         }
         //校验购物车的数据,包括产品的状态和数量
@@ -269,7 +269,7 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createByErrorMessage("该用户此订单不存在");
         }
         if(order.getStatus() != Const.OrderStatusEnum.NO_PAY.getCode()){
-            return ServerResponse.createByErrorMessage("已付款,无法取消订单");
+            return ServerResponse.createByErrorMessage("已付款或订单已取消,无法取消订单");
         }
         Order updateOrder = new Order();
         updateOrder.setId(order.getId());
@@ -541,9 +541,12 @@ public class OrderServiceImpl implements IOrderService {
         payInfo.setPlatformNumber(tradeNo);
         payInfo.setPlatformStatus(tradeStatus);
 
-        payInfoMapper.insert(payInfo);
-
-        return ServerResponse.createBySuccess();
+        int rowCount = payInfoMapper.insert(payInfo);
+        if (rowCount > 0){
+            return ServerResponse.createBySuccess();
+        }else {
+            return ServerResponse.createByError();
+        }
     }
 
     @Override

@@ -54,7 +54,6 @@ public class OrderController {
         return iOrderService.cancel(user.getId(), orderNo);
     }
 
-
     @RequestMapping("get_order_cart_product.do")
     @ResponseBody
     public ServerResponse getOrderCartProduct(HttpSession session) {
@@ -64,7 +63,6 @@ public class OrderController {
         }
         return iOrderService.getOrderCartProduct(user.getId());
     }
-
 
     @RequestMapping("detail.do")
     @ResponseBody
