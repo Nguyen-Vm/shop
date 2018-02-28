@@ -1,7 +1,6 @@
 package com.nguyen.shop.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -11,8 +10,8 @@ import org.springframework.context.ApplicationContextAware;
  * @author RWM
  * @date 2018/2/8
  */
+@Slf4j
 public class SpringBeanHelper implements ApplicationContextAware {
-    private static final Logger logger = LoggerFactory.getLogger(SpringBeanHelper.class);
     protected static ApplicationContext applicationContext;
 
     @Override
@@ -24,7 +23,7 @@ public class SpringBeanHelper implements ApplicationContextAware {
         try {
             return applicationContext.getBean(clazz);
         }catch (NoSuchBeanDefinitionException e){
-            logger.warn("no qualifying bean of type: {}", clazz);
+            log.warn("no qualifying bean of type: {}", clazz);
             return null;
         }
     }
