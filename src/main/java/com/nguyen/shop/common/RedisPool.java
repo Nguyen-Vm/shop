@@ -10,7 +10,9 @@ import redis.clients.jedis.JedisPoolConfig;
  * @date 2018/3/5
  */
 public class RedisPool {
+
     private static JedisPool pool;
+
     private static Integer maxTotal = Integer.parseInt(PropertiesUtil.getProperty("redis.max.total", "20"));
     private static Integer maxIdle = Integer.parseInt(PropertiesUtil.getProperty("redis.max.idle", "10"));
     private static Integer minIdle = Integer.parseInt(PropertiesUtil.getProperty("redis.min.idle", "2"));
