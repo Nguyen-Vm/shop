@@ -35,7 +35,7 @@ import com.nguyen.shop.pojo.Shipping;
 import com.nguyen.shop.service.IOrderService;
 import com.nguyen.shop.utils.BigDecimalUtil;
 import com.nguyen.shop.utils.DateFormat;
-import com.nguyen.shop.utils.DateUtils;
+import com.nguyen.shop.utils.DateUtil;
 import com.nguyen.shop.utils.FTPUtils;
 import com.nguyen.shop.utils.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -134,11 +134,11 @@ public class OrderServiceImpl implements IOrderService {
             response.shippingResponse = (assembleShippingVo(shipping));
         }
 
-        response.paymentTime = DateUtils.format(order.getPaymentTime(), DateFormat.StrikeDateTime);
-        response.sendTime = DateUtils.format(order.getSendTime(), DateFormat.StrikeDateTime);
-        response.endTime = DateUtils.format(order.getEndTime(), DateFormat.StrikeDateTime);
-        response.createTime = DateUtils.format(order.getCreateTime(), DateFormat.StrikeDateTime);
-        response.closeTime = DateUtils.format(order.getCloseTime(), DateFormat.StrikeDateTime);
+        response.paymentTime = DateUtil.format(order.getPaymentTime(), DateFormat.StrikeDateTime);
+        response.sendTime = DateUtil.format(order.getSendTime(), DateFormat.StrikeDateTime);
+        response.endTime = DateUtil.format(order.getEndTime(), DateFormat.StrikeDateTime);
+        response.createTime = DateUtil.format(order.getCreateTime(), DateFormat.StrikeDateTime);
+        response.closeTime = DateUtil.format(order.getCloseTime(), DateFormat.StrikeDateTime);
 
 
         response.imageHost = (PropertiesUtil.getProperty("ftp.server.http.prefix"));
@@ -164,7 +164,7 @@ public class OrderServiceImpl implements IOrderService {
         orderItemVo.quantity = (orderItem.getQuantity());
         orderItemVo.totalPrice = (orderItem.getTotalPrice());
 
-        orderItemVo.createTime = DateUtils.format(orderItem.getCreateTime(), DateFormat.StrikeDateTime);
+        orderItemVo.createTime = DateUtil.format(orderItem.getCreateTime(), DateFormat.StrikeDateTime);
         return orderItemVo;
     }
 
@@ -528,7 +528,7 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createBySuccess("支付宝重复调用");
         }
         if (Const.AlipayCallback.TRADE_STATUS_TRADE_SUCCESS.equals(tradeStatus)) {
-            order.setPaymentTime(DateUtils.ofDate(params.get("gmt_payment"), DateFormat.StrikeDateTime));
+            order.setPaymentTime(DateUtil.ofDate(params.get("gmt_payment"), DateFormat.StrikeDateTime));
             order.setStatus(Const.OrderStatusEnum.PAID.getCode());
             orderMapper.updateByPrimaryKeySelective(order);
         }

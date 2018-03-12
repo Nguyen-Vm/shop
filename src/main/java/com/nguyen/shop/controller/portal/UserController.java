@@ -5,7 +5,7 @@ import com.nguyen.shop.common.ResponseCode;
 import com.nguyen.shop.common.ServerResponse;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.service.IUserService;
-import com.nguyen.shop.utils.CookieUtils;
+import com.nguyen.shop.utils.CookieUtil;
 import com.nguyen.shop.utils.JsonUtil;
 import com.nguyen.shop.utils.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -36,7 +36,7 @@ public class UserController {
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()){
-            CookieUtils.writeLoginToken(httpServletResponse, session.getId());
+            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
             RedisPoolUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return response;
@@ -45,9 +45,9 @@ public class UserController {
     /** 退出帐号 **/
     @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> logout(HttpSession session, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String loginToken = CookieUtils.readLoginToken(httpServletRequest);
-        CookieUtils.delLoginToken(httpServletRequest, httpServletResponse);
+    public ServerResponse<String> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        CookieUtil.delLoginToken(httpServletRequest, httpServletResponse);
         RedisPoolUtil.del(loginToken);
         return ServerResponse.createBySuccessMessage("退出登录");
     }
@@ -69,8 +69,8 @@ public class UserController {
     /** 获得用户信息 **/
     @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> getUserInfo(HttpSession session, HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtils.readLoginToken(httpServletRequest);
+    public ServerResponse<User> getUserInfo(HttpServletRequest httpServletRequest){
+        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }

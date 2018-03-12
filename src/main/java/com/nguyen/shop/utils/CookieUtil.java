@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2018/3/6
  */
 @Slf4j
-public class CookieUtils {
+public class CookieUtil {
 
     private static final String COOKIE_DOMAIN = ".nguyen.com";
     private static final String COOKIE_NAME = "mmall_login_token";

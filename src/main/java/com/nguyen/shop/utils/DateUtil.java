@@ -10,10 +10,10 @@ import java.util.Date;
  * @author RWM
  * @date 2018/1/24
  */
-public final class DateUtils {
+public final class DateUtil {
     public static final long DAT_TIME = 24 * 60 * 60 * 1000L;
 
-    private DateUtils() {
+    private DateUtil() {
     }
 
     /**
