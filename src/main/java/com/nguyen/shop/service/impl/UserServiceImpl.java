@@ -6,7 +6,7 @@ import com.nguyen.shop.mapper.UserMapper;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.service.IUserService;
 import com.nguyen.shop.utils.MD5Util;
-import com.nguyen.shop.utils.RedisPoolUtil;
+import com.nguyen.shop.utils.RedisSharedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,7 +122,7 @@ public class UserServiceImpl implements IUserService {
         if (resultCount > 0){
             String forgetToken = UUID.randomUUID().toString();
 //            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
-            RedisPoolUtil.setEx(Const.TOKEN_PREFIX + username, forgetToken, 60*60*12);
+            RedisSharedPoolUtil.setEx(Const.TOKEN_PREFIX + username, forgetToken, 60*60*12);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题答案错误，校验失败！");
@@ -141,7 +141,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("参数错误，token不能为空");
         }
 //        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
-        String token = RedisPoolUtil.get(Const.TOKEN_PREFIX + username);
+        String token = RedisSharedPoolUtil.get(Const.TOKEN_PREFIX + username);
         if (StringUtils.isBlank(token)){
             return ServerResponse.createByErrorMessage("token无效或过期");
         }

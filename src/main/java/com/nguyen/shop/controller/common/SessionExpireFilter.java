@@ -4,7 +4,7 @@ import com.nguyen.shop.common.Const;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.utils.CookieUtil;
 import com.nguyen.shop.utils.JsonUtil;
-import com.nguyen.shop.utils.RedisPoolUtil;
+import com.nguyen.shop.utils.RedisSharedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.Filter;
@@ -31,10 +31,10 @@ public class SessionExpireFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if (StringUtils.isNotEmpty(loginToken)){
-            String userJsonStr = RedisPoolUtil.get(loginToken);
+            String userJsonStr = RedisSharedPoolUtil.get(loginToken);
             User user = JsonUtil.string2Obj(userJsonStr, User.class);
             if (user != null){
-                RedisPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+                RedisSharedPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);

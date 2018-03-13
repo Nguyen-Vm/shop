@@ -18,8 +18,8 @@ public class RedisPool {
     private static Integer minIdle = Integer.parseInt(PropertiesUtil.getProperty("redis.min.idle", "2"));
 
 
-    private static String redisIp = PropertiesUtil.getProperty("redis.ip");
-    private static Integer redisPort = Integer.parseInt(PropertiesUtil.getProperty("redis.port"));
+    private static String redisIp = PropertiesUtil.getProperty("redis1.ip");
+    private static Integer redisPort = Integer.parseInt(PropertiesUtil.getProperty("redis1.port"));
 
     private static Boolean testOnBorrow = Boolean.parseBoolean(PropertiesUtil.getProperty("redis.test.borrow", "true"));
     private static Boolean testOnReturn = Boolean.parseBoolean(PropertiesUtil.getProperty("redis.test.return", "false"));
@@ -54,11 +54,11 @@ public class RedisPool {
         pool.returnResource(jedis);
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Jedis jedis = pool.getResource();
         jedis.set("nguyenkey", "nguyenvalue");
         returnResource(jedis);
 
         pool.destroy();//临时调用，销毁连接池中的的所有连接
-    }*/
+    }
 }

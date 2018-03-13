@@ -1,103 +1,105 @@
 package com.nguyen.shop.utils;
 
 import com.nguyen.shop.common.RedisPool;
+import com.nguyen.shop.common.RedisSharedPool;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.ShardedJedis;
 
 /**
  * @author RWM
- * @date 2018/3/6
+ * @date 2018/3/13
  */
 @Slf4j
-public class RedisPoolUtil {
+public class RedisSharedPoolUtil {
 
     public static String get(String key){
-        Jedis jedis = null;
+        ShardedJedis jedis = null;
         String result = null;
         try {
-            jedis = RedisPool.getResource();
+            jedis = RedisSharedPool.getResource();
             result = jedis.get(key);
         } catch (Exception e) {
             log.error("get key:{} error", key, e);
-            RedisPool.returnBrokenResource(jedis);
+            RedisSharedPool.returnBrokenResource(jedis);
             return result;
         }
-        RedisPool.returnResource(jedis);
+        RedisSharedPool.returnResource(jedis);
         return result;
     }
 
     public static String set(String key, String value){
-        Jedis jedis = null;
+        ShardedJedis jedis = null;
         String result = null;
         try {
-            jedis = RedisPool.getResource();
+            jedis = RedisSharedPool.getResource();
             result = jedis.set(key, value);
         }catch (Exception e){
             log.error("set key:{}, value:{} error", key, value, e);
-            RedisPool.returnBrokenResource(jedis);
+            RedisSharedPool.returnBrokenResource(jedis);
             return result;
         }
-        RedisPool.returnResource(jedis);
+        RedisSharedPool.returnResource(jedis);
         return result;
     }
 
     public static String setEx(String key, String value, int exTime){
-        Jedis jedis = null;
+        ShardedJedis jedis = null;
         String result = null;
         try {
-            jedis = RedisPool.getResource();
+            jedis = RedisSharedPool.getResource();
             result = jedis.setex(key, exTime, value);
         }catch (Exception e){
             log.error("setEx key:{}, value:{} error", key, value, e);
-            RedisPool.returnBrokenResource(jedis);
+            RedisSharedPool.returnBrokenResource(jedis);
             return result;
         }
-        RedisPool.returnResource(jedis);
+        RedisSharedPool.returnResource(jedis);
         return result;
     }
 
     public static Long expire(String key, int exTime){
-        Jedis jedis = null;
+        ShardedJedis jedis = null;
         Long result = null;
         try {
-            jedis = RedisPool.getResource();
+            jedis = RedisSharedPool.getResource();
             result = jedis.expire(key, exTime);
         }catch (Exception e){
             log.error("expire key:{} error", key, e);
-            RedisPool.returnBrokenResource(jedis);
+            RedisSharedPool.returnBrokenResource(jedis);
             return result;
         }
-        RedisPool.returnResource(jedis);
+        RedisSharedPool.returnResource(jedis);
         return result;
     }
 
     public static Long del(String key){
-        Jedis jedis = null;
+        ShardedJedis jedis = null;
         Long result = null;
         try {
-            jedis = RedisPool.getResource();
+            jedis = RedisSharedPool.getResource();
             result = jedis.del(key);
         }catch (Exception e){
             log.error("del key:{} error", key, e);
-            RedisPool.returnBrokenResource(jedis);
+            RedisSharedPool.returnBrokenResource(jedis);
             return result;
         }
-        RedisPool.returnResource(jedis);
+        RedisSharedPool.returnResource(jedis);
         return result;
     }
 
     public static void main(String[] args) {
         Jedis jedis = RedisPool.getResource();
-        RedisPoolUtil.set("nguyenKey","nguyenValue");
-        RedisPoolUtil.set("del","del");
+        RedisSharedPoolUtil.set("nguyenKey","nguyenValue");
+        RedisSharedPoolUtil.set("del","del");
 
-        String nguyenValue = RedisPoolUtil.get("nguyenKey");
+        String nguyenValue = RedisSharedPoolUtil.get("nguyenKey");
 
-        RedisPoolUtil.setEx("nguyen","nguyen",1000*10);
+        RedisSharedPoolUtil.setEx("nguyen","nguyen",1000*10);
 
-        RedisPoolUtil.expire("nguyenKey",1000*10);
+        RedisSharedPoolUtil.expire("nguyenKey",1000*10);
 
-        RedisPoolUtil.del("del");
+        RedisSharedPoolUtil.del("del");
 
         System.out.println("End");
     }
