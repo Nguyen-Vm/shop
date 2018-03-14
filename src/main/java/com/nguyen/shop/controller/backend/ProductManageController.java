@@ -1,17 +1,12 @@
 package com.nguyen.shop.controller.backend;
 
 import com.google.common.collect.Maps;
-import com.nguyen.shop.common.ResponseCode;
 import com.nguyen.shop.common.ServerResponse;
 import com.nguyen.shop.pojo.Product;
-import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.service.IFileService;
 import com.nguyen.shop.service.IProductService;
 import com.nguyen.shop.service.IUserService;
-import com.nguyen.shop.utils.CookieUtil;
-import com.nguyen.shop.utils.JsonUtil;
 import com.nguyen.shop.utils.PropertiesUtil;
-import com.nguyen.shop.utils.RedisSharedPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +39,7 @@ public class ProductManageController {
     @RequestMapping("save.do")
     @ResponseBody
     public ServerResponse saveProduct(Product product, HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -57,14 +52,17 @@ public class ProductManageController {
             return iProductService.saveOrUpdateProduct(product);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        return iProductService.saveOrUpdateProduct(product);
     }
 
     @RequestMapping("set_product_status.do")
     @ResponseBody
     public ServerResponse setProductStatus(Integer productId, Integer status,
                                            HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -77,13 +75,16 @@ public class ProductManageController {
             return iProductService.setProductStatus(productId, status);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        return iProductService.setProductStatus(productId, status);
     }
 
     @RequestMapping("detail.do")
     @ResponseBody
     public ServerResponse getProductDetail(Integer productId, HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -96,7 +97,10 @@ public class ProductManageController {
             return iProductService.getManageProductDetail(productId);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        return iProductService.getManageProductDetail(productId);
     }
 
     @RequestMapping("list.do")
@@ -104,7 +108,7 @@ public class ProductManageController {
     public ServerResponse getProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                          @RequestParam(value = "pageSIze", defaultValue = "10") int pageSize,
                                          HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -117,7 +121,10 @@ public class ProductManageController {
             return iProductService.getProductList(pageNum, pageSize);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        return iProductService.getProductList(pageNum, pageSize);
     }
 
     @RequestMapping("search.do")
@@ -125,7 +132,7 @@ public class ProductManageController {
     public ServerResponse productSearch(@RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
                                         @RequestParam(value = "pageSize",defaultValue = "10") int pageSize,
                                         Integer productId, String productName, HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -138,14 +145,17 @@ public class ProductManageController {
             return iProductService.searchProduct(productName,productId,pageNum,pageSize);
         }else{
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        return iProductService.searchProduct(productName,productId,pageNum,pageSize);
     }
 
     @RequestMapping("upload.do")
     @ResponseBody
     public ServerResponse upload(@RequestParam(value = "upload_file", required = false) MultipartFile file,
                                  HttpServletRequest httpServletRequest){
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             return ServerResponse.createByErrorMessage("用户未登录,无法获取当前用户的信息");
         }
@@ -164,7 +174,16 @@ public class ProductManageController {
             return ServerResponse.createBySuccess(fileMap);
         }else {
             return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = iFileService.upload(file, path);
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+        Map fileMap = Maps.newHashMap();
+        fileMap.put("uri", targetFileName);
+        fileMap.put("url", url);
+        return ServerResponse.createBySuccess(fileMap);
     }
 
     @RequestMapping("richtext_img_upload.do")
@@ -172,7 +191,8 @@ public class ProductManageController {
     public Map richtextImgUpload(@RequestParam(value = "upload_file", required = false) MultipartFile file,
                                  HttpServletRequest httpServletRequest, HttpServletResponse response){
         Map resultMap = Maps.newHashMap();
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+
+        /*String loginToken = CookieUtil.readLoginToken(httpServletRequest);
         if(StringUtils.isEmpty(loginToken)){
             resultMap.put("success",false);
             resultMap.put("msg","用户未登录,无法获取当前用户的信息");
@@ -209,7 +229,22 @@ public class ProductManageController {
             resultMap.put("success",false);
             resultMap.put("msg","无权限操作");
             return resultMap;
+        }*/
+
+        //全部通过拦截器验证是否登录以及权限
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = iFileService.upload(file,path);
+        if(StringUtils.isBlank(targetFileName)){
+            resultMap.put("success",false);
+            resultMap.put("msg","上传失败");
+            return resultMap;
         }
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
+        resultMap.put("success",true);
+        resultMap.put("msg","上传成功");
+        resultMap.put("file_path",url);
+        response.addHeader("Access-Control-Allow-Headers","X-File-Name");
+        return resultMap;
     }
 
 

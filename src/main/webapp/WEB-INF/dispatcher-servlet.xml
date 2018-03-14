@@ -43,4 +43,15 @@
     </bean>
 
 
+    <mvc:interceptors>
+        <!-- 定义在这里的，所有的都会拦截 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/manage/**"/>
+            <!--解决拦截登录循环-->
+            <!--<mvc:exclude-mapping path="/manage/user/login.do"/>-->
+            <bean class="com.nguyen.shop.controller.common.interceptor.AuthorityInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
 </beans>
