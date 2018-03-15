@@ -19,8 +19,11 @@ import java.io.IOException;
 /**
  * @author RWM
  * @date 2018/3/12
+ *
+ * @description 重置Session有效期过滤器
  */
 public class SessionExpireFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -34,6 +37,7 @@ public class SessionExpireFilter implements Filter {
             String userJsonStr = RedisSharedPoolUtil.get(loginToken);
             User user = JsonUtil.string2Obj(userJsonStr, User.class);
             if (user != null){
+                //重置session有效期
                 RedisSharedPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
             }
         }

@@ -7,6 +7,8 @@ import redis.clients.jedis.Jedis;
 /**
  * @author RWM
  * @date 2018/3/6
+ *
+ * @description Redis连接池工具类
  */
 @Slf4j
 public class RedisPoolUtil {

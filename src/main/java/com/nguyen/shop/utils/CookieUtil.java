@@ -17,6 +17,7 @@ public class CookieUtil {
     private static final String COOKIE_DOMAIN = ".nguyen.com";
     private static final String COOKIE_NAME = "mmall_login_token";
 
+    /** 读取Cookie **/
     public static String readLoginToken(HttpServletRequest request){
         Cookie[] cks = request.getCookies();
         if (cks != null){
@@ -31,17 +32,21 @@ public class CookieUtil {
         return null;
     }
 
+    /** 写入Cookie **/
     public static void writeLoginToken(HttpServletResponse httpServletResponse, String token){
         Cookie ck = new Cookie(COOKIE_NAME, token);
         ck.setDomain(COOKIE_DOMAIN);
-        ck.setPath("/");//代表设置在根目录
+        //代表设置在根目录
+        ck.setPath("/");
 
         //单位是秒
         //如果这个MaxAge不设置的话，cookie就不会写入硬盘，而是写在内存。只在当前页面有效。
-        ck.setMaxAge(60 * 60 * 24 * 365);//如果是-1，代表永久
+        //如果是-1，代表永久
+        ck.setMaxAge(60 * 60 * 24 * 365);
         httpServletResponse.addCookie(ck);
     }
 
+    /** 删除Cookie **/
     public static void delLoginToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         Cookie[] cks = httpServletRequest.getCookies();
         if (cks != null){
@@ -49,7 +54,9 @@ public class CookieUtil {
                 if (StringUtils.equals(ck.getName(), COOKIE_NAME)){
                     ck.setDomain(COOKIE_DOMAIN);
                     ck.setPath("/");
-                    ck.setMaxAge(0);//设置成0，代表删除此Cookie
+
+                    //设置成0，代表删除此Cookie
+                    ck.setMaxAge(0);
                     httpServletResponse.addCookie(ck);
                     return;
                 }

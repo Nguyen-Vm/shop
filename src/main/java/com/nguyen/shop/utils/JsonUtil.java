@@ -21,7 +21,10 @@ public class JsonUtil {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
     static{
-        //对象的所有字段全部列入
+        //ALWAYS:列入对象的所有字段
+        //NON_NULL:列入不为NULL的字段
+        //NON_DEFAULT:列入非默认值的字段
+        //NON_EMPTY:列入为空的字段(NULL,length为0的字符串,size为0的集合)
         objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.ALWAYS);
 
         //取消默认转换timestamps形式
@@ -63,10 +66,6 @@ public class JsonUtil {
         }
     }
 
-
-
-
-
     public static <T> T string2Obj(String str,Class<T> clazz){
         if(StringUtils.isEmpty(str) || clazz == null){
             return null;
@@ -80,8 +79,6 @@ public class JsonUtil {
         }
     }
 
-
-
     public static <T> T string2Obj(String str, TypeReference<T> typeReference){
         if(StringUtils.isEmpty(str) || typeReference == null){
             return null;
@@ -94,7 +91,6 @@ public class JsonUtil {
         }
     }
 
-
     public static <T> T string2Obj(String str,Class<?> collectionClass,Class<?>... elementClasses){
         JavaType javaType = objectMapper.getTypeFactory().constructParametricType(collectionClass,elementClasses);
         try {
@@ -104,8 +100,6 @@ public class JsonUtil {
             return null;
         }
     }
-
-
 
     public static void main(String[] args) {
         TestPojo testPojo = new TestPojo();

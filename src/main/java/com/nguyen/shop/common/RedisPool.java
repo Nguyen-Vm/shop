@@ -8,6 +8,8 @@ import redis.clients.jedis.JedisPoolConfig;
 /**
  * @author RWM
  * @date 2018/3/5
+ *
+ * @description Redis连接池
  */
 public class RedisPool {
 

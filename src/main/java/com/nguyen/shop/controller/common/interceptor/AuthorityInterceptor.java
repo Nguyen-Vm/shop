@@ -23,12 +23,16 @@ import java.util.Map;
 /**
  * @author RWM
  * @date 2018/3/14
+ *
+ * @description 管理员权限校验拦截器
  */
 @Slf4j
 public class AuthorityInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest httpServletRequest,
+                             HttpServletResponse httpServletResponse,
+                             Object handler) throws Exception {
         log.info("preHandle");
         //请求中Controller中的方法名
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -49,18 +53,19 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 
             Object obj = entry.getValue();
             if (obj instanceof String[]){
-                String[] strs = (String[]) obj;
-                mapValue = Arrays.toString(strs);
+                String[] strings = (String[]) obj;
+                mapValue = Arrays.toString(strings);
             }
             requestParamsBuffer.append(mapKey).append("=").append(mapValue);
         }
 
         if (StringUtils.equals(className, "UserManageController") && StringUtils.equals(methodName, "login")){
-            log.info("权限拦截器拦截到请求，className:{}, methodName:{}", className, methodName);
             //如果拦截到登录请求，不打印参数，因为参数里面有密码，全部会打印到日志中，防止密码泄露
+            log.info("权限拦截器拦截到请求，className:{}, methodName:{}", className, methodName);
             return true;
         }
 
+        //拦截到请求,打印参数
         log.info("权限拦截器拦截到请求,className:{},methodName:{},param:{}", className, methodName, requestParamsBuffer.toString());
 
 
@@ -72,7 +77,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         }
 
         if (user == null || (user.getRole().intValue() != Const.Role.ROLE_ADMIN)){
-            //返回false，即不会调用controller里的方法
             //这里要添加reset，否则报异常 getWriter() has already been called for this response
             httpServletResponse.reset();
             //这里要设置编码，否则会乱码
@@ -105,6 +109,7 @@ public class AuthorityInterceptor implements HandlerInterceptor {
             out.flush();
             out.close();
 
+            //返回false,拦截该请求,即不会调用controller里的方法
             return false;
         }
         return true;

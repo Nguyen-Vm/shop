@@ -9,6 +9,9 @@ import java.util.Set;
  * @date 2018/1/28
  */
 public class Const {
+
+    /*-------------------------------String------------------------------------*/
+
     public static final String CURRENT_USER = "currentUser";
 
     public static final String EMAIL = "email";
@@ -16,8 +19,10 @@ public class Const {
 
     public static final String TOKEN_PREFIX = "token_";
 
+    /*-------------------------------interface------------------------------------*/
+
     public interface RedisCacheExtime {
-        int REDIS_SESSION_EXTIME = 60 * 30;//30分钟
+        int REDIS_SESSION_EXTIME = 60 * 30;//单位:秒,30分钟
     }
 
     public interface ProductListOrderBy {
@@ -29,25 +34,6 @@ public class Const {
         int ROLE_ADMIN = 1;//管理员
     }
 
-    public enum ProductStatusEnum {
-        ON_SALE(1, "在线");
-        private String value;
-        private int code;
-
-        ProductStatusEnum(int code, String value) {
-            this.code = code;
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public int getCode() {
-            return code;
-        }
-    }
-
     public interface Cart {
         int CHECKED = 1;//即购物车选中状态
         int UN_CHECKED = 0;//购物车中未选中状态
@@ -55,9 +41,39 @@ public class Const {
         String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
     }
 
+    public interface  AlipayCallback{
+        String TRADE_STATUS_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
+        String TRADE_STATUS_TRADE_SUCCESS = "TRADE_SUCCESS";
+
+        String RESPONSE_SUCCESS = "success";
+        String RESPONSE_FAILED = "failed";
+    }
+
+    /*-------------------------------enum------------------------------------*/
+
+    public enum ProductStatusEnum {
+        ON_SALE(1, "在线");
+        private int code;
+        private String value;
+
+        ProductStatusEnum(int code, String value) {
+            this.code = code;
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+
     public enum OrderStatusEnum {
         CANCELED(0, "已取消"),
-        NO_PAY(10, "未付款"),
+        NO_PAY(10, "未支付"),
         PAID(20, "已支付"),
         SHIPPED(40, "已发货"),
         ORDER_SUCCESS(50, "订单完成"),
@@ -89,14 +105,6 @@ public class Const {
         }
     }
 
-    public interface  AlipayCallback{
-        String TRADE_STATUS_WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
-        String TRADE_STATUS_TRADE_SUCCESS = "TRADE_SUCCESS";
-
-        String RESPONSE_SUCCESS = "success";
-        String RESPONSE_FAILED = "failed";
-    }
-
     public enum PayPlatformEnum{
         ALIPAY(1,"支付宝");
 
@@ -104,15 +112,15 @@ public class Const {
             this.code = code;
             this.value = value;
         }
-        private String value;
         private int code;
-
-        public String getValue() {
-            return value;
-        }
+        private String value;
 
         public int getCode() {
             return code;
+        }
+
+        public String getValue() {
+            return value;
         }
 
         public static PayPlatformEnum codeOf(int code){
@@ -121,7 +129,7 @@ public class Const {
                     return payPlatformEnum;
                 }
             }
-            throw new RuntimeException("么有找到对应的枚举");
+            throw new RuntimeException("没有找到对应的枚举");
         }
     }
 
@@ -132,15 +140,15 @@ public class Const {
             this.code = code;
             this.value = value;
         }
-        private String value;
         private int code;
-
-        public String getValue() {
-            return value;
-        }
+        private String value;
 
         public int getCode() {
             return code;
+        }
+
+        public String getValue() {
+            return value;
         }
 
         public static PaymentTypeEnum codeOf(int code){
@@ -149,7 +157,7 @@ public class Const {
                     return paymentTypeEnum;
                 }
             }
-            throw new RuntimeException("么有找到对应的枚举");
+            throw new RuntimeException("没有找到对应的枚举");
         }
     }
 }

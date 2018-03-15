@@ -1,14 +1,14 @@
 package com.nguyen.shop.utils;
 
-import com.nguyen.shop.common.RedisPool;
 import com.nguyen.shop.common.RedisSharedPool;
 import lombok.extern.slf4j.Slf4j;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.ShardedJedis;
 
 /**
  * @author RWM
  * @date 2018/3/13
+ *
+ * @description 分布式Redis连接池工具类
  */
 @Slf4j
 public class RedisSharedPoolUtil {
@@ -88,19 +88,4 @@ public class RedisSharedPoolUtil {
         return result;
     }
 
-    public static void main(String[] args) {
-        Jedis jedis = RedisPool.getResource();
-        RedisSharedPoolUtil.set("nguyenKey","nguyenValue");
-        RedisSharedPoolUtil.set("del","del");
-
-        String nguyenValue = RedisSharedPoolUtil.get("nguyenKey");
-
-        RedisSharedPoolUtil.setEx("nguyen","nguyen",1000*10);
-
-        RedisSharedPoolUtil.expire("nguyenKey",1000*10);
-
-        RedisSharedPoolUtil.del("del");
-
-        System.out.println("End");
-    }
 }

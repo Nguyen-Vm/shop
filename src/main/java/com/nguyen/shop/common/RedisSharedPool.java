@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * @author RWM
  * @date 2018/3/5
+ *
+ * @description 分布式Redis连接池
  */
 public class RedisSharedPool {
 

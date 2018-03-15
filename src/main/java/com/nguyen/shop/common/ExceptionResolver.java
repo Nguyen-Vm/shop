@@ -12,17 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author RWM
  * @date 2018/3/14
+ *
+ * @description: 全局异常处理类
  */
 @Slf4j
 @Component
 public class ExceptionResolver implements HandlerExceptionResolver {
 
     @Override
-    public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
+    public ModelAndView resolveException(HttpServletRequest httpServletRequest,
+                                         HttpServletResponse httpServletResponse,
+                                         Object o,
+                                         Exception e) {
         log.error("{} Exception", httpServletRequest.getRequestURI(), e);
         ModelAndView modelAndView = new ModelAndView(new MappingJacksonJsonView());
 
-        //当使用Jackson2.x的时候使用MappingJackson2JsonView，课程中使用的事1.9。
+        //当使用Jackson2.x的时候使用MappingJackson2JsonView，课程中使用的是1.9。
         modelAndView.addObject("status", ResponseCode.ERROR.getCode());
         modelAndView.addObject("msg", "接口异常，详情请查看服务端日志的信息");
         modelAndView.addObject("data", e.toString());

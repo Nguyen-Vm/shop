@@ -9,6 +9,8 @@ import java.util.Properties;
 /**
  * @author RWM
  * @date 2018/1/28
+ *
+ * @description 配置文件工具类
  */
 @Slf4j
 public class PropertiesUtil {
@@ -19,7 +21,8 @@ public class PropertiesUtil {
         String fileName = "mmall.properties";
         props = new Properties();
         try {
-            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
+            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader()
+                    .getResourceAsStream(fileName),"UTF-8"));
         } catch (IOException e) {
             log.error("配置文件读取异常",e);
         }
