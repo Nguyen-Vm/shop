@@ -24,12 +24,9 @@ public class UserSpringSessionController {
     private IUserService iUserService;
 
     /** 用户登录 **/
-    @RequestMapping(value = "login.do", method = RequestMethod.GET)
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session){
-        //测试全局异常
-//        int i = 0;
-//        int j = 666/i;
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()){
             session.setAttribute(Const.CURRENT_USER, response.getData());
@@ -38,7 +35,7 @@ public class UserSpringSessionController {
     }
 
     /** 退出帐号 **/
-    @RequestMapping(value = "logout.do", method = RequestMethod.GET)
+    @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
@@ -46,7 +43,7 @@ public class UserSpringSessionController {
     }
 
     /** 获得用户信息 **/
-    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpSession session){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
