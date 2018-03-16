@@ -1,13 +1,13 @@
-package com.nguyen.shop.common;
+package com.nguyen.shop.common.custom;
 
 /**
  * @author RWM
  * @date 2018/3/15
  */
-public enum PayPlatformEnum {
-    ALIPAY(1,"支付宝");
+public enum PaymentTypeEnum {
+    ONLINE_PAY(1,"在线支付");
 
-    PayPlatformEnum(int code,String value){
+    PaymentTypeEnum(int code,String value){
         this.code = code;
         this.value = value;
     }
@@ -22,10 +22,10 @@ public enum PayPlatformEnum {
         return value;
     }
 
-    public static PayPlatformEnum codeOf(int code){
-        for(PayPlatformEnum payPlatformEnum : values()){
-            if(payPlatformEnum.getCode() == code){
-                return payPlatformEnum;
+    public static PaymentTypeEnum codeOf(int code){
+        for(PaymentTypeEnum paymentTypeEnum : values()){
+            if(paymentTypeEnum.getCode() == code){
+                return paymentTypeEnum;
             }
         }
         throw new RuntimeException("没有找到对应的枚举");

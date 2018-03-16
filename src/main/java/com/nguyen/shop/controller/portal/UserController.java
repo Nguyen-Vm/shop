@@ -1,8 +1,8 @@
 package com.nguyen.shop.controller.portal;
 
-import com.nguyen.shop.common.Const;
 import com.nguyen.shop.common.ResponseCode;
 import com.nguyen.shop.common.ServerResponse;
+import com.nguyen.shop.common.custom.Const;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.service.IUserService;
 import com.nguyen.shop.utils.CookieUtil;

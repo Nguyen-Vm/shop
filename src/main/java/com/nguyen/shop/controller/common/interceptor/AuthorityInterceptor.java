@@ -1,8 +1,8 @@
 package com.nguyen.shop.controller.common.interceptor;
 
 import com.google.common.collect.Maps;
-import com.nguyen.shop.common.Const;
 import com.nguyen.shop.common.ServerResponse;
+import com.nguyen.shop.common.custom.Const;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.utils.CookieUtil;
 import com.nguyen.shop.utils.JsonUtil;

@@ -1,4 +1,4 @@
-package com.nguyen.shop.common;
+package com.nguyen.shop.common.custom;
 
 /**
  * @author RWM
