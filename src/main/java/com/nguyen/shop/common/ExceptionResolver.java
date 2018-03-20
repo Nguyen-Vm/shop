@@ -1,5 +1,6 @@
 package com.nguyen.shop.common;
 
+import com.nguyen.shop.dto.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -28,8 +29,8 @@ public class ExceptionResolver implements HandlerExceptionResolver {
         ModelAndView modelAndView = new ModelAndView(new MappingJacksonJsonView());
 
         //当使用Jackson2.x的时候使用MappingJackson2JsonView，课程中使用的是1.9。
-        modelAndView.addObject("status", ResponseCode.ERROR.getCode());
-        modelAndView.addObject("msg", "接口异常，详情请查看服务端日志的信息");
+        modelAndView.addObject("status", e instanceof AppException ? ((AppException) e).code.code(): ResponseCode.ERROR.getCode());
+        modelAndView.addObject("msg", e instanceof AppException ? ((AppException) e).code.msg() : "接口异常，详情请查看服务端日志的信息");
         modelAndView.addObject("data", e.toString());
         return modelAndView;
     }

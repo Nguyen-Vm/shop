@@ -35,7 +35,7 @@ public class UserManageController {
             User user = response.getData();
             if (user.getRole() == Const.Role.ROLE_ADMIN){
                 // 管理员登录
-//                session.setAttribute(Const.CURRENT_USER, user);
+                //session.setAttribute(Const.CURRENT_USER, user);
 
                 //新增redis共享cookie，session的方式
                 CookieUtil.writeLoginToken(httpServletResponse, session.getId());
