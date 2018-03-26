@@ -2,7 +2,7 @@ package com.nguyen.shop.pojo;
 
 import com.nguyen.shop.dto.response.ProductResponse;
 import com.nguyen.shop.utils.DateFormat;
-import com.nguyen.shop.utils.DateUtil;
+import com.nguyen.shop.utils.DateUtils;
 import com.nguyen.shop.utils.PropertiesUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,8 +43,8 @@ public class Product {
         response.stock = stock;
         response.status = status;
         response.imageHost = PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/");
-        response.createTime = DateUtil.format(createTime, DateFormat.StrikeDateTime);
-        response.updateTime = DateUtil.format(updateTime, DateFormat.StrikeDateTime);
+        response.createTime = DateUtils.format(createTime, DateFormat.StrikeDateTime);
+        response.updateTime = DateUtils.format(updateTime, DateFormat.StrikeDateTime);
         return response;
     }
 }
