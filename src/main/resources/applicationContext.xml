@@ -12,6 +12,16 @@
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="2"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:datasource.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="utf-8"/>
+    </bean>
 
     <import resource="applicationContext-datasource.xml"/>
 
