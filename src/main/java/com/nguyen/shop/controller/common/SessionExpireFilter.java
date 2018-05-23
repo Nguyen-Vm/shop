@@ -37,10 +37,12 @@ public class SessionExpireFilter implements Filter {
             String userJsonStr = RedisSharedPoolUtil.get(loginToken);
             User user = JsonUtil.string2Obj(userJsonStr, User.class);
             if (user != null){
-                //重置session有效期
+                // 重置session有效期
                 RedisSharedPoolUtil.expire(loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
             }
         }
+        // web.xml里面配置的有可能是一个接一个的filter链。
+        // 将请求转发给过滤器链上下一个filter，如果没有filter那就到请求的资源。
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
