@@ -25,7 +25,7 @@ public class UserController {
     private IUserService iUserService;
 
     /** 用户登录 **/
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session){
         ServerResponse<User> response = iUserService.login(username, password);
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     /** 退出帐号 **/
-    @RequestMapping(value = "logout.do", method = RequestMethod.POST)
+    @RequestMapping(value = "logout.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
@@ -51,14 +51,14 @@ public class UserController {
     }
 
     /** 用户名、邮箱检验 **/
-    @RequestMapping(value = "check_valid.do", method = RequestMethod.POST)
+    @RequestMapping(value = "check_valid.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> checkValid(String str, String type){
         return iUserService.checkValid(str, type);
     }
 
     /** 获得用户信息 **/
-    @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -69,28 +69,28 @@ public class UserController {
     }
 
     /** 忘记密码，密码提示问题 **/
-    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.POST)
+    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> forgetGetQuestion(String username){
         return iUserService.selectQuestion(username);
     }
 
     /** 忘记密码，提交问题答案 **/
-    @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.POST)
+    @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer){
         return iUserService.checkAnswer(username,question,answer);
     }
 
     /** 忘记密码，重置密码 **/
-    @RequestMapping(value = "forget_reset_password.do",method = RequestMethod.POST)
+    @RequestMapping(value = "forget_reset_password.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> forgetRestPassword(String username,String passwordNew,String forgetToken){
         return iUserService.forgetResetPassword(username,passwordNew,forgetToken);
     }
 
     /** 重置密码 **/
-    @RequestMapping(value = "reset_password.do",method = RequestMethod.POST)
+    @RequestMapping(value = "reset_password.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession session,String passwordOld,String passwordNew){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
@@ -119,7 +119,7 @@ public class UserController {
     }
 
     /** 查询个人信息 **/
-    @RequestMapping(value = "get_information.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_information.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> get_information(HttpSession session){
         User currentUser = (User)session.getAttribute(Const.CURRENT_USER);
