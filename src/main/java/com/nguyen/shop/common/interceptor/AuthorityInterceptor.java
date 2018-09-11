@@ -1,4 +1,4 @@
-package com.nguyen.shop.controller.common.interceptor;
+package com.nguyen.shop.common.interceptor;
 
 import com.google.common.collect.Maps;
 import com.nguyen.shop.common.ServerResponse;

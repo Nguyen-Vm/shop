@@ -49,7 +49,7 @@
             <mvc:mapping path="/manage/**"/>
             <!--解决拦截登录循环-->
             <!--<mvc:exclude-mapping path="/manage/user/login.do"/>-->
-            <bean class="com.nguyen.shop.controller.common.interceptor.AuthorityInterceptor"/>
+            <bean class="com.nguyen.shop.common.interceptor.AuthorityInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

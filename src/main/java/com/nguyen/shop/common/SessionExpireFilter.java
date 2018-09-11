@@ -1,4 +1,4 @@
-package com.nguyen.shop.controller.common;
+package com.nguyen.shop.common;
 
 import com.nguyen.shop.common.custom.Const;
 import com.nguyen.shop.pojo.User;
