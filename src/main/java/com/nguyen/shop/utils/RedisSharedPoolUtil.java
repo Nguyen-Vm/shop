@@ -73,7 +73,7 @@ public class RedisSharedPoolUtil {
         return result;
     }
 
-    public static String setEx(String key, String value, int exTime){
+    public static String setex(String key, String value, int exTime){
         ShardedJedis jedis = null;
         String result = null;
         try {

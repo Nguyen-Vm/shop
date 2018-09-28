@@ -122,7 +122,7 @@ public class UserServiceImpl implements IUserService {
         if (resultCount > 0){
             String forgetToken = UUID.randomUUID().toString();
 //            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
-            RedisSharedPoolUtil.setEx(Const.TOKEN_PREFIX + username, forgetToken, 60*60*12);
+            RedisSharedPoolUtil.setex(Const.TOKEN_PREFIX + username, forgetToken, 60*60*12);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题答案错误，校验失败！");

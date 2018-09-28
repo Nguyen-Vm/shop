@@ -39,7 +39,7 @@ public class UserManageController {
 
                 //新增redis共享cookie，session的方式
                 CookieUtil.writeLoginToken(httpServletResponse, session.getId());
-                RedisSharedPoolUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+                RedisSharedPoolUtil.setex(session.getId(), JsonUtil.obj2String(response.getData()), Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
 
                 return response;
             }else {
