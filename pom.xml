@@ -251,6 +251,7 @@
             <version>1.16.18</version>
         </dependency>
 
+        <!-- spring session 单点登录 -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>

@@ -35,7 +35,7 @@ public class RedissonManager {
     @PostConstruct
     private void init(){
         try {
-            config.useSingleServer().setAddress(new StringBuilder().append(redisIp1).append(":").append(redisPort1).toString());
+            config.useSingleServer().setAddress(String.format("%s:%s", redisIp1, redisPort1));
 
             redisson = (Redisson) Redisson.create(config);
 
