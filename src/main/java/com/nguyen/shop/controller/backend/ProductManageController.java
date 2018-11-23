@@ -34,25 +34,25 @@ public class ProductManageController {
     private IProductService iProductService;
 
     @Autowired
-    private IFileService iFileService;
+    private IFileService ossFileService;
 
     @RequestMapping("save.do")
     @ResponseBody
-    public ServerResponse saveProduct(Product product){
+    public ServerResponse saveProduct(Product product) {
         //全部通过拦截器验证是否登录以及权限
         return iProductService.saveOrUpdateProduct(product);
     }
 
     @RequestMapping("set_product_status.do")
     @ResponseBody
-    public ServerResponse setProductStatus(Integer productId, Integer status){
+    public ServerResponse setProductStatus(Integer productId, Integer status) {
         //全部通过拦截器验证是否登录以及权限
         return iProductService.setProductStatus(productId, status);
     }
 
     @RequestMapping("detail.do")
     @ResponseBody
-    public ServerResponse getProductDetail(Integer productId){
+    public ServerResponse getProductDetail(Integer productId) {
         //全部通过拦截器验证是否登录以及权限
         return iProductService.getManageProductDetail(productId);
     }
@@ -60,7 +60,7 @@ public class ProductManageController {
     @RequestMapping("list.do")
     @ResponseBody
     public ServerResponse getProductList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                         @RequestParam(value = "pageSIze", defaultValue = "10") int pageSize){
+                                         @RequestParam(value = "pageSIze", defaultValue = "10") int pageSize) {
         //全部通过拦截器验证是否登录以及权限
         return iProductService.getProductList(pageNum, pageSize);
     }
@@ -69,19 +69,33 @@ public class ProductManageController {
     @ResponseBody
     public ServerResponse productSearch(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                        Integer productId, String productName){
+                                        Integer productId, String productName) {
         //全部通过拦截器验证是否登录以及权限
-        return iProductService.searchProduct(productName,productId,pageNum,pageSize);
+        return iProductService.searchProduct(productName, productId, pageNum, pageSize);
     }
 
     @RequestMapping("upload.do")
     @ResponseBody
     public ServerResponse upload(@RequestParam(value = "upload_file", required = false) MultipartFile file,
-                                 HttpServletRequest httpServletRequest){
+                                 HttpServletRequest httpServletRequest) {
         //全部通过拦截器验证是否登录以及权限
         String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
-        String targetFileName = iFileService.upload(file, path);
+        String targetFileName = ossFileService.upload(file, path);
         String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+        Map fileMap = Maps.newHashMap();
+        fileMap.put("uri", targetFileName);
+        fileMap.put("url", url);
+        return ServerResponse.createBySuccess(fileMap);
+    }
+
+    @RequestMapping("upload_oss.do")
+    @ResponseBody
+    public ServerResponse uploadOss(@RequestParam(value = "upload_file", required = false) MultipartFile file,
+                                    HttpServletRequest httpServletRequest) {
+        //全部通过拦截器验证是否登录以及权限
+        String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
+        String targetFileName = ossFileService.upload(file, path);
+        String url = PropertiesUtil.getProperty("oss.server.http.prefix") + targetFileName;
         Map fileMap = Maps.newHashMap();
         fileMap.put("uri", targetFileName);
         fileMap.put("url", url);
@@ -91,21 +105,21 @@ public class ProductManageController {
     @RequestMapping("richtext_img_upload.do")
     @ResponseBody
     public Map richtextImgUpload(@RequestParam(value = "upload_file", required = false) MultipartFile file,
-                                 HttpServletRequest httpServletRequest, HttpServletResponse response){
+                                 HttpServletRequest httpServletRequest, HttpServletResponse response) {
         Map resultMap = Maps.newHashMap();
         //全部通过拦截器验证是否登录以及权限
         String path = httpServletRequest.getSession().getServletContext().getRealPath("upload");
-        String targetFileName = iFileService.upload(file,path);
-        if(StringUtils.isBlank(targetFileName)){
-            resultMap.put("success",false);
-            resultMap.put("msg","上传失败");
+        String targetFileName = ossFileService.upload(file, path);
+        if (StringUtils.isBlank(targetFileName)) {
+            resultMap.put("success", false);
+            resultMap.put("msg", "上传失败");
             return resultMap;
         }
-        String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
-        resultMap.put("success",true);
-        resultMap.put("msg","上传成功");
-        resultMap.put("file_path",url);
-        response.addHeader("Access-Control-Allow-Headers","X-File-Name");
+        String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+        resultMap.put("success", true);
+        resultMap.put("msg", "上传成功");
+        resultMap.put("file_path", url);
+        response.addHeader("Access-Control-Allow-Headers", "X-File-Name");
         return resultMap;
     }
 
