@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class CookieUtil {
 
-    private static final String COOKIE_DOMAIN = ".nguyen.com";
-    private static final String COOKIE_NAME = "mmall_login_token";
+    private static final String COOKIE_DOMAIN = "localhost";
+    private static final String COOKIE_NAME = "login_token";
 
     /** 读取Cookie **/
     public static String readLoginToken(HttpServletRequest request){

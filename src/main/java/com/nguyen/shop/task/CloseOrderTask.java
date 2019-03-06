@@ -1,7 +1,7 @@
 package com.nguyen.shop.task;
 
-import com.nguyen.shop.common.RedissonManager;
 import com.nguyen.shop.common.custom.Const;
+import com.nguyen.shop.config.RedissonManager;
 import com.nguyen.shop.service.IOrderService;
 import com.nguyen.shop.utils.PropertiesUtil;
 import com.nguyen.shop.utils.RedisSharedPoolUtil;

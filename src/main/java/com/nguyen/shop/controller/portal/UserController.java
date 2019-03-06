@@ -5,6 +5,7 @@ import com.nguyen.shop.common.ServerResponse;
 import com.nguyen.shop.common.custom.Const;
 import com.nguyen.shop.pojo.User;
 import com.nguyen.shop.service.IUserService;
+import com.nguyen.shop.task.RedisLock;
 import com.nguyen.shop.utils.CookieUtil;
 import com.nguyen.shop.utils.JsonUtil;
 import com.nguyen.shop.utils.RedisSharedPoolUtil;
@@ -30,10 +31,14 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    @Autowired
+    private RedisLock redisLock;
+
     /** 用户登录 **/
     @RequestMapping(value = "login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
+        // redisLock.newInstance("lock", 1000).lock();
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccess()){
             CookieUtil.writeLoginToken(httpServletResponse, session.getId());

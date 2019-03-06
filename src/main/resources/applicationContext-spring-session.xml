@@ -8,7 +8,7 @@
     </bean>
 
     <bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
-        <property name="domainName" value=".nguyen.com"/>
+        <property name="domainName" value="localhost"/>
         <property name="useHttpOnlyCookie" value="true"/>
         <property name="cookiePath" value="/"/>
         <property name="cookieMaxAge" value="31536000"/>
@@ -22,6 +22,15 @@
         <property name="hostName" value="127.0.0.1"/>
         <property name="port" value="6379"/>
         <property name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+
+
+    <bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
     </bean>
 
 </beans>

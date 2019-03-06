@@ -1,4 +1,4 @@
-package com.nguyen.shop.common;
+package com.nguyen.shop.config;
 
 import com.nguyen.shop.common.custom.Const;
 import com.nguyen.shop.pojo.User;
@@ -26,7 +26,6 @@ public class SessionExpireFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -48,6 +47,5 @@ public class SessionExpireFilter implements Filter {
 
     @Override
     public void destroy() {
-
     }
 }

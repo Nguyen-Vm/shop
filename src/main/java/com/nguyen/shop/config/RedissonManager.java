@@ -1,4 +1,4 @@
-package com.nguyen.shop.common;
+package com.nguyen.shop.config;
 
 import com.nguyen.shop.utils.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +36,7 @@ public class RedissonManager {
     private void init(){
         try {
             config.useSingleServer().setAddress(String.format("%s:%s", redisIp1, redisPort1));
-
             redisson = (Redisson) Redisson.create(config);
-
             log.info("初始化Redisson结束");
         } catch (Exception e) {
             log.error("redisson init error", e);
